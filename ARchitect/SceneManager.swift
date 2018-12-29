@@ -47,10 +47,36 @@ class SceneManager: NSObject {
         let text = SCNText(string: text, extrusionDepth: 0.1)
         text.font = UIFont.systemFont(ofSize: 1.0)
         text.flatness = 0.01
-        text.firstMaterial?.diffuse.contents = UIColor.blue
+        text.firstMaterial?.diffuse.contents = UIColor.black
         let fontSize = Float(0.01)
         let textNode = SCNNode(geometry: text)
         textNode.scale = SCNVector3(fontSize, fontSize, fontSize)
+        
+        //plane node as background
+        let minVec = textNode.boundingBox.min
+        let maxVec = textNode.boundingBox.max
+        let bound = SCNVector3Make(maxVec.x - minVec.x,
+                                   maxVec.y - minVec.y,
+                                   maxVec.z - minVec.z);
+        
+        let plane = SCNPlane(width: CGFloat(bound.x + 1),
+                             height: CGFloat(bound.y + 1))
+        plane.cornerRadius = 0.2
+        plane.firstMaterial?.diffuse.contents = UIColor.white.withAlphaComponent(0.9)
+        plane.firstMaterial?.isDoubleSided = true
+        
+        let planeNode = SCNNode(geometry: plane)
+        planeNode.position = SCNVector3(CGFloat( minVec.x) + CGFloat(bound.x) / 2 ,
+                                        CGFloat( minVec.y) + CGFloat(bound.y) / 2,CGFloat(minVec.z - 0.01))
+        
+        textNode.addChildNode(planeNode)
+        
+        let constraint = SCNLookAtConstraint(target: sceneView?.pointOfView)
+        constraint.isGimbalLockEnabled = true
+        textNode.constraints = [constraint]
+        textNode.pivot = SCNMatrix4MakeRotation(.pi, 0, 1, 0);
+
+        
         return textNode
     }
     
