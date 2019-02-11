@@ -31,13 +31,12 @@ class SceneManager: NSObject {
         sceneView?.scene.rootNode.addChildNode(node)
     }
     
-    func addLine(_ start: SCNVector3, _ end: SCNVector3){
-        //add line
-        let line = SCNGeometry.line(from: start, to: end)
-        let lineNode = SCNNode(geometry: line)
-        lineNode.position = SCNVector3Zero
-        sceneView?.scene.rootNode.addChildNode(lineNode)
-        //        add value at middle of line
+    
+    func addPipe(_ start: SCNVector3, _ end: SCNVector3){
+        let pipe = createPipe(from: start,to: end)
+        sceneView?.scene.rootNode.addChildNode(pipe)
+        
+        //add value at middle of line
         let textNode = createTextNode(text: String(distance(start,end)*100)+" cm")
         textNode.position =  SCNVector3((start.x + end.x)/2, (start.y + end.y)/2, (start.z + end.z)/2)
         sceneView?.scene.rootNode.addChildNode(textNode)
@@ -76,7 +75,6 @@ class SceneManager: NSObject {
         textNode.constraints = [constraint]
         textNode.pivot = SCNMatrix4MakeRotation(.pi, 0, 1, 0);
 
-        
         return textNode
     }
     
@@ -86,6 +84,33 @@ class SceneManager: NSObject {
         let zDist = start.z - end.z
         let result = sqrt((xDist*xDist)+(yDist*yDist)+(zDist*zDist))
         return round(result*10000)/10000
+    }
+    
+    func createPipe(from node1: SCNVector3, to node2: SCNVector3) -> SCNNode{
+        let lineGeometry = SCNCylinder(radius: 0.002, height: node1.distance(to: node2))
+        
+        // Create Material
+        let material = SCNMaterial()
+        material.diffuse.contents = UIColor.red
+        material.lightingModel = .phong
+        lineGeometry.materials = [material]
+        
+        // Create Cylinder(line) Node
+        let pipe = SCNNode()
+        pipe.geometry = lineGeometry
+        pipe.position = posBetween(first: node1, second: node2)
+        
+        //rotate
+        let dirVector = SCNVector3Make(node2.x - node1.x, node2.y - node1.y, node2.z - node1.z)
+        let yAngle = atan(dirVector.x / dirVector.z)
+        pipe.eulerAngles.x = .pi / 2
+        pipe.eulerAngles.y = yAngle
+        
+        return pipe
+    }
+    
+    func posBetween(first: SCNVector3, second: SCNVector3) -> SCNVector3 {
+        return SCNVector3Make((first.x + second.x) / 2, (first.y + second.y) / 2, (first.z + second.z) / 2)
     }
 }
 
@@ -109,13 +134,14 @@ extension SceneManager: ARSCNViewDelegate {
     func renderer(_ renderer: SCNSceneRenderer, didRemove node: SCNNode, for anchor: ARAnchor) {
         planes.removeValue(forKey: anchor.identifier)
     }
+    
 }
 
-extension SCNGeometry {
-    class func line(from vector1: SCNVector3, to vector2: SCNVector3) -> SCNGeometry {
-        let indices: [Int32] = [0, 1]
-        let source = SCNGeometrySource(vertices: [vector1, vector2])
-        let element = SCNGeometryElement(indices: indices, primitiveType: .line)
-        return SCNGeometry(sources: [source], elements: [element])
+extension SCNVector3 {
+    func distance(to destination: SCNVector3) -> CGFloat {
+        let dx = destination.x - x
+        let dy = destination.y - y
+        let dz = destination.z - z
+        return CGFloat(sqrt(dx*dx + dy*dy + dz*dz))
     }
 }

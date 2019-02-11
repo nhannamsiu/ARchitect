@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2236266E21D7B9F100CF28D7 /* focus.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2236266D21D7B9F100CF28D7 /* focus.jpg */; };
+		224ED242221009CD00079D3E /* focus.png in Resources */ = {isa = PBXBuildFile; fileRef = 224ED241221009CD00079D3E /* focus.png */; };
 		22F0B7A521D726DA004B1155 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F0B7A421D726DA004B1155 /* AppDelegate.swift */; };
 		22F0B7A721D726DA004B1155 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 22F0B7A621D726DA004B1155 /* art.scnassets */; };
 		22F0B7A921D726DA004B1155 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F0B7A821D726DA004B1155 /* ViewController.swift */; };
@@ -39,7 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2236266D21D7B9F100CF28D7 /* focus.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = focus.jpg; sourceTree = "<group>"; };
+		224ED241221009CD00079D3E /* focus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = focus.png; sourceTree = "<group>"; };
 		22F0B7A121D726DA004B1155 /* ARchitect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARchitect.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22F0B7A421D726DA004B1155 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		22F0B7A621D726DA004B1155 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -107,6 +107,7 @@
 		22F0B7A321D726DA004B1155 /* ARchitect */ = {
 			isa = PBXGroup;
 			children = (
+				224ED241221009CD00079D3E /* focus.png */,
 				22F0B7A421D726DA004B1155 /* AppDelegate.swift */,
 				22F0B7A621D726DA004B1155 /* art.scnassets */,
 				22F0B7A821D726DA004B1155 /* ViewController.swift */,
@@ -114,7 +115,6 @@
 				22F0B7D621D7A291004B1155 /* Plane.swift */,
 				22F0B7D821D7A2B1004B1155 /* GridMaterial.swift */,
 				22F0B7AA21D726DA004B1155 /* Main.storyboard */,
-				2236266D21D7B9F100CF28D7 /* focus.jpg */,
 				22F0B7AD21D726DB004B1155 /* Assets.xcassets */,
 				22F0B7AF21D726DB004B1155 /* LaunchScreen.storyboard */,
 				22F0B7B221D726DB004B1155 /* Info.plist */,
@@ -245,7 +245,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				22F0B7A721D726DA004B1155 /* art.scnassets in Resources */,
-				2236266E21D7B9F100CF28D7 /* focus.jpg in Resources */,
+				224ED242221009CD00079D3E /* focus.png in Resources */,
 				22F0B7B121D726DB004B1155 /* LaunchScreen.storyboard in Resources */,
 				22F0B7AE21D726DB004B1155 /* Assets.xcassets in Resources */,
 				22F0B7AC21D726DA004B1155 /* Main.storyboard in Resources */,
