@@ -13,8 +13,9 @@ import ARKit
 class ViewController: UIViewController, ARSCNViewDelegate {
 
     @IBOutlet var sceneView: ARSCNView!
-    
     let sceneManager = SceneManager()
+    
+    private var marker: [SCNVector3] = []
     private var lastNode: SCNVector3? = nil
     
     override func viewDidLoad() {
@@ -23,28 +24,39 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneManager.displayDegubInfo()
     }
 
-    
     @IBAction func markPress(_ sender: UIButton) {
-        if let _ = lastNode{
-            //valid last node
-            let currentNode = getNodeFromScene()
-            sceneManager.addBox(pos: currentNode!)
-            sceneManager.addPipe(lastNode!, currentNode!)
-            
-            lastNode = currentNode
-        }
-        else{
-            //first node ever
-            lastNode = getNodeFromScene()
-            sceneManager.addBox(pos: lastNode!)
+        if let currentNode = getNodeFromScene(){
+            if let _ = lastNode{
+                //valid last node then add box and pipe
+                sceneManager.addBox(pos: currentNode)
+                sceneManager.addPipe(lastNode!, currentNode)
+                //assign to last node
+                lastNode = currentNode
+                marker.append(lastNode!)
+            }
+            else{
+                //first node ever
+                lastNode = currentNode
+                marker.append(lastNode!)
+                sceneManager.addBox(pos: lastNode!)
+            }
         }
     }
     
  
     @IBAction func finishPress(_ sender: UIButton) {
-        print("finish pressed")
-
+        //add pipe between last and first node
+        if (marker.count > 1){
+            sceneManager.addPipe(lastNode!, marker[0])
+            for node in marker{
+                print(node)
+            }
+            //empty marker for new session
+            marker = []
+        }
     }
+    
+    
     @IBAction func clearPress(_ sender: UIButton) {
         sceneView.scene.rootNode.enumerateChildNodes { (node, stop) in
             if (node.geometry is SCNBox || node.geometry is SCNCylinder || node.geometry is SCNText){
